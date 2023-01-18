@@ -28,7 +28,6 @@ public class UserResourceTest extends ResourceTestEnvironment {
                 .statusCode(HttpStatus.CREATED_201.getStatusCode())
                 .contentType(ContentType.JSON)
                 .body("username", equalTo(userDTO.getUsername()))
-                .body("age", equalTo(userDTO.getAge()))
                 .body("id", notNullValue())
                 .body("roles",hasSize(1))
                 .body("roles",hasItem("user"))

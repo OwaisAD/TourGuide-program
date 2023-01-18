@@ -1,9 +1,8 @@
 package facades;
 
-import entities.User;
-
 import javax.persistence.*;
 
+import entities.User;
 import errorhandling.IllegalAgeException;
 import errorhandling.InvalidEmailException;
 import errorhandling.InvalidUsernameException;
