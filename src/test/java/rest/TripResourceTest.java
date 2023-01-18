@@ -191,6 +191,28 @@ public class TripResourceTest extends ResourceTestEnvironment {
                 .assertThat()
                 .statusCode(HttpStatus.OK_200.getStatusCode())
                 .contentType(ContentType.JSON);
+    }
 
+    @Test
+    public void createTripTest() {
+        User admin = createAndPersistAdmin();
+        Trip trip = createTrip();
+
+        login(admin);
+
+
+
+        int id = given()
+                .header("Content-type", ContentType.JSON)
+                .header("x-access-token", securityToken)
+                .body(GSON.toJson(trip))
+                .when()
+                .post(BASE_URL)
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK_200.getStatusCode())
+                .contentType(ContentType.JSON)
+                .extract().path("id");
+        assertDatabaseHasEntity(trip, id);
     }
 }

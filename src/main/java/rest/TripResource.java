@@ -2,9 +2,11 @@ package rest;
 
 import dtos.PersonDTO;
 import dtos.TripDTO;
+import entities.Guide;
 import entities.Person;
 import entities.Trip;
 import entities.User;
+import facades.GuideFacade;
 import facades.PersonFacade;
 import facades.TripFacade;
 import org.glassfish.grizzly.http.util.HttpStatus;
@@ -20,6 +22,8 @@ public class TripResource extends Resource {
 
     private final TripFacade facade = TripFacade.getFacade(EMF);
     private final PersonFacade personFacade = PersonFacade.getFacade(EMF);
+
+    private final GuideFacade guideFacade = GuideFacade.getFacade(EMF);
 
     @GET
     @RolesAllowed({"user", "admin"})
@@ -75,6 +79,20 @@ public class TripResource extends Resource {
     public Response removeTripById(@PathParam("id") int id) {
         List<TripDTO> updatedTripsList = facade.removeTripById(id);
         return Response.status(HttpStatus.OK_200.getStatusCode()).entity(GSON.toJson(updatedTripsList)).build();
+    }
+
+    @POST
+    @RolesAllowed("admin")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response createTrip(String tripAsJson) {
+        TripDTO tripDTO = GSON.fromJson(tripAsJson, TripDTO.class);
+
+        Guide guide = guideFacade.getGuideById(tripDTO.getGuide().getId());
+        Trip trip = new Trip(tripDTO.getDate(), tripDTO.getTime(), tripDTO.getLocation(), tripDTO.getDuration(), tripDTO.getPackingList(), guide);
+
+        TripDTO createdTrip = facade.createTrip(trip);
+
+        return Response.status(HttpStatus.OK_200.getStatusCode()).entity(GSON.toJson(createdTrip)).build();
 
     }
 

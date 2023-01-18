@@ -106,4 +106,18 @@ public class TripFacade {
         }
         return getAllTrips();
     }
+
+    public TripDTO createTrip(Trip trip) {
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            em.getTransaction().begin();
+            em.persist(trip);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return new TripDTO(trip);
+    }
+
 }
