@@ -151,4 +151,46 @@ public class TripResourceTest extends ResourceTestEnvironment {
                 .assertThat()
                 .statusCode(HttpStatus.FORBIDDEN_403.getStatusCode());
     }
+
+    @Test
+    public void removeTripByIdTest() {
+        User admin = createAndPersistAdmin();
+        Trip trip = createAndPersistTrip();
+
+        login(admin);
+
+        given()
+                .header("Content-type", ContentType.JSON)
+                .header("x-access-token", securityToken)
+                .when()
+                .delete(BASE_URL + trip.getId())
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK_200.getStatusCode())
+                .contentType(ContentType.JSON);
+    }
+
+    @Test
+    public void removeTripByIdThatContainsPeopleTest() {
+        User admin = createAndPersistAdmin();
+
+        Trip trip = createAndPersistTrip();
+        Person person = createAndPersistPerson();
+        trip.getPeople().add(person);
+
+        trip = (Trip) update(trip);
+
+        login(admin);
+
+        given()
+                .header("Content-type", ContentType.JSON)
+                .header("x-access-token", securityToken)
+                .when()
+                .delete(BASE_URL + trip.getId())
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK_200.getStatusCode())
+                .contentType(ContentType.JSON);
+
+    }
 }

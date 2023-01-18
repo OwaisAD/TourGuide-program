@@ -68,4 +68,14 @@ public class TripResource extends Resource {
         return Response.status(HttpStatus.OK_200.getStatusCode()).entity(GSON.toJson(tripDTO)).build();
     }
 
+    @DELETE
+    @Path("{id}")
+    @RolesAllowed("admin")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response removeTripById(@PathParam("id") int id) {
+        List<TripDTO> updatedTripsList = facade.removeTripById(id);
+        return Response.status(HttpStatus.OK_200.getStatusCode()).entity(GSON.toJson(updatedTripsList)).build();
+
+    }
+
 }

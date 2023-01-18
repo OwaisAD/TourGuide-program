@@ -88,6 +88,18 @@ public class TripFacadeTest extends TestEnvironment {
         assertEquals(expected.getId(), actual.getId());
     }
 
+    @Test
+    public void removeTripByIdTest() {
+        Trip actual = createAndPersistTrip();
+
+        assertDatabaseHasEntity(actual, actual.getId());
+        assertEquals(1, facade.getAllTrips().size());
+
+        List<TripDTO> allTripsUpdated = facade.removeTripById(actual.getId());
+
+        assertDatabaseDoesNotHaveEntity(actual, actual.getId());
+        assertEquals(0, facade.getAllTrips().size());
+    }
 
 
 }

@@ -6,6 +6,7 @@ import entities.Trip;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.NotFoundException;
 import java.util.List;
@@ -86,4 +87,23 @@ public class TripFacade {
     }
 
 
+    public List<TripDTO> removeTripById(Integer id) {
+        EntityManager em = emf.createEntityManager();
+
+        Trip trip;
+        try {
+            em.getTransaction().begin();
+            trip = em.find(Trip.class, id);
+
+            if(trip == null) {
+                throw new EntityNotFoundException("Trip with id: " + id + " was not found");
+            }
+
+            em.remove(trip);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return getAllTrips();
+    }
 }
