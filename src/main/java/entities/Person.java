@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "person")
-public class Person {
+public class Person implements entities.Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -34,11 +34,28 @@ public class Person {
     @Column(name = "gender", nullable = false, length = 45)
     private String gender;
 
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "users_id", nullable = false)
+    private User user;
+
     @ManyToMany
     @JoinTable(name = "person_has_trip",
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "trip_id"))
     private Set<Trip> trips = new LinkedHashSet<>();
+
+
+    public Person() {
+    }
+
+    public Person(String address, String email, Integer birthYear, String gender, User user) {
+        this.address = address;
+        this.email = email;
+        this.birthYear = birthYear;
+        this.gender = gender;
+        this.user = user;
+    }
 
     public Integer getId() {
         return id;
@@ -78,6 +95,14 @@ public class Person {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Set<Trip> getTrips() {

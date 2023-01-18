@@ -57,6 +57,10 @@ public class User implements Serializable, entities.Entity{
 
     public User() {}
 
+    public User(Integer id) {
+        this.id = id;
+    }
+
     public boolean verifyPassword(String pw){
         return BCrypt.checkpw(pw, password);
     }

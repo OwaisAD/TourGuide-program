@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 
 /**
  * A DTO for the {@link entities.Trip} entity
@@ -58,6 +58,14 @@ public class TripDTO implements Serializable {
         });
     }
 
+    public static List<TripDTO> getDTOs(List<Trip> allTrips) {
+        List<TripDTO> tripDTOList = new ArrayList<>();
+        allTrips.forEach(trip -> {
+            tripDTOList.add(new TripDTO(trip));
+        });
+        return tripDTOList;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -88,6 +96,20 @@ public class TripDTO implements Serializable {
 
     public List<PersonInnerDTO> getPeople() {
         return people;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TripDTO)) return false;
+        TripDTO tripDTO = (TripDTO) o;
+        return getId().equals(tripDTO.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 
     @Override
@@ -185,12 +207,15 @@ public class TripDTO implements Serializable {
         @NotNull
         private final String gender;
 
-        public PersonInnerDTO(Integer id, String address, String email, Integer birthYear, String gender) {
+        private final Integer userId;
+
+        public PersonInnerDTO(Integer id, String address, String email, Integer birthYear, String gender, Integer userId) {
             this.id = id;
             this.address = address;
             this.email = email;
             this.birthYear = birthYear;
             this.gender = gender;
+            this.userId = userId;
         }
 
         public PersonInnerDTO(Person person) {
@@ -199,6 +224,7 @@ public class TripDTO implements Serializable {
             this.email = person.getEmail();
             this.birthYear = person.getBirthYear();
             this.gender = person.getGender();
+            this.userId = person.getUser().getId();
         }
 
         public Integer getId() {
@@ -222,13 +248,28 @@ public class TripDTO implements Serializable {
         }
 
         @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof PersonInnerDTO)) return false;
+            PersonInnerDTO that = (PersonInnerDTO) o;
+            return getId().equals(that.getId());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(getId());
+        }
+
+        @Override
         public String toString() {
-            return getClass().getSimpleName() + "(" +
-                    "id = " + id + ", " +
-                    "address = " + address + ", " +
-                    "email = " + email + ", " +
-                    "birthYear = " + birthYear + ", " +
-                    "gender = " + gender + ")";
+            return "PersonInnerDTO{" +
+                    "id=" + id +
+                    ", address='" + address + '\'' +
+                    ", email='" + email + '\'' +
+                    ", birthYear=" + birthYear +
+                    ", gender='" + gender + '\'' +
+                    ", userId=" + userId +
+                    '}';
         }
     }
 }

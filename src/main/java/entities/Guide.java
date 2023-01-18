@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "guide")
-public class Guide {
+public class Guide implements entities.Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -37,6 +37,16 @@ public class Guide {
 
     @OneToMany(mappedBy = "guide")
     private Set<Trip> trips = new LinkedHashSet<>();
+
+    public Guide(String gender, String birthYear, String profile, String image) {
+        this.gender = gender;
+        this.birthYear = birthYear;
+        this.profile = profile;
+        this.image = image;
+    }
+
+    public Guide() {
+    }
 
     public Integer getId() {
         return id;

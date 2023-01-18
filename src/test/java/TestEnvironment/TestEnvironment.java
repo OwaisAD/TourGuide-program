@@ -8,6 +8,9 @@ import org.junit.jupiter.api.BeforeEach;
 import utils.EMF_Creator;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -97,6 +100,101 @@ public class TestEnvironment {
             );
             user.addRole(role);
             return user;
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+        }
+        return null;
+    }
+
+    protected User createAndPersistAdmin() {
+        User admin = createAdmin();
+        return (User) persist(admin);
+    }
+
+    protected User createAdmin() {
+        try {
+            Role roleAdmin = createRole();
+            roleAdmin.setRole("admin");
+            persist(roleAdmin);
+            User user = new User(
+                    faker.letterify("?????"),
+                    password,
+                    faker.number().numberBetween(13, 120),
+                    faker.bothify("?????##@gmail.com")
+            );
+            user.addRole(roleAdmin);
+            return user;
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+        }
+        return null;
+    }
+
+    protected Trip createAndPersistTrip() {
+        Trip trip = createTrip();
+        return (Trip) persist(trip);
+    }
+
+    protected Trip createTrip() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        LocalDate localDate = LocalDate.now();
+        LocalTime localTime = LocalTime.now();
+        Guide guide = createAndPersistGuide();
+
+        try {
+            Trip trip = new Trip(
+                    localDate,
+                    localTime,
+                    faker.address().streetAddress(),
+                    faker.letterify("?????"),
+                    faker.letterify("?????"),
+                    guide
+            );
+            return trip;
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+        }
+        return null;
+    }
+
+    protected Guide createAndPersistGuide() {
+        Guide guide = createGuide();
+        return (Guide) persist(guide);
+    }
+
+    protected Guide createGuide() {
+        try {
+            Guide guide = new Guide(
+                    faker.letterify("????"),
+                    String.valueOf(faker.number().numberBetween(1940, 2010)),
+                    faker.letterify("????"),
+                    faker.internet().image()
+            );
+            return guide;
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+        }
+        return null;
+    }
+
+
+    protected Person createAndPersistPerson() {
+        Person person = createPerson();
+        return (Person) persist(person);
+    }
+
+    protected Person createPerson() {
+        User user = createAndPersistUser();
+
+        try {
+            Person person = new Person(
+                    faker.letterify("???????"),
+                    faker.bothify("?????##@gmail.com"),
+                    faker.number().numberBetween(1940, 2010),
+                    faker.letterify("????"),
+                    user
+            );
+            return person;
         } catch (Exception e) {
             System.out.println("Exception: " + e);
         }

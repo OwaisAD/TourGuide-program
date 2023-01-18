@@ -2,12 +2,14 @@ package dtos;
 
 public class LoginDTO {
 
+    private final int id;
     private final String username;
     private final String password;
 
     private final String token;
 
     private LoginDTO(Builder builder) {
+        this.id = builder.id;
         this.username = builder.username;
         this.password = builder.password;
         this.token = builder.token;
@@ -26,6 +28,7 @@ public class LoginDTO {
     }
 
     public static class Builder {
+        private int id;
         private String username;
         private String password;
         private String token;
@@ -33,6 +36,10 @@ public class LoginDTO {
         public Builder() {
         }
 
+        public Builder setId(int id) {
+            this.id = id;
+            return this;
+        }
         public Builder setUsername(String username) {
             this.username = username;
             return this;

@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * A DTO for the {@link Person} entity
@@ -30,12 +29,15 @@ public class PersonDTO implements Serializable {
     private final String gender;
     private final List<TripInnerDTO> trips = new ArrayList<>();
 
-    public PersonDTO(Integer id, String address, String email, Integer birthYear, String gender) {
+    private final Integer userId;
+
+    public PersonDTO(Integer id, String address, String email, Integer birthYear, String gender, Integer userId) {
         this.id = id;
         this.address = address;
         this.email = email;
         this.birthYear = birthYear;
         this.gender = gender;
+        this.userId = userId;
     }
 
     public PersonDTO(Person person) {
@@ -43,6 +45,7 @@ public class PersonDTO implements Serializable {
         this.address = person.getAddress();
         this.email = person.getEmail();
         this.birthYear = person.getBirthYear();
+        this.userId = person.getUser().getId();
         this.gender = person.getGender();
         person.getTrips().forEach(trip -> {
             trips.add(new TripInnerDTO(trip));
@@ -69,19 +72,25 @@ public class PersonDTO implements Serializable {
         return gender;
     }
 
-    public Set<TripInnerDTO> getTrips() {
+    public List<TripInnerDTO> getTrips() {
         return trips;
+    }
+
+    public Integer getUserId() {
+        return userId;
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "(" +
-                "id = " + id + ", " +
-                "address = " + address + ", " +
-                "email = " + email + ", " +
-                "birthYear = " + birthYear + ", " +
-                "gender = " + gender + ", " +
-                "trips = " + trips + ")";
+        return "PersonDTO{" +
+                "id=" + id +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                ", birthYear=" + birthYear +
+                ", gender='" + gender + '\'' +
+                ", trips=" + trips +
+                ", userId=" + userId +
+                '}';
     }
 
     /**

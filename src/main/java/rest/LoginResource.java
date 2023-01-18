@@ -39,6 +39,7 @@ public class LoginResource extends Resource {
             String token = createToken(user.getId(), user.getUsername(), user.getRolesAsStringList());
 
             loginDTO = new LoginDTO.Builder()
+                    .setId(user.getId())
                     .setUsername(user.getUsername())
                     .setToken(token)
                     .build();
