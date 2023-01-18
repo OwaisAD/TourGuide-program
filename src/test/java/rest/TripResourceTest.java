@@ -87,4 +87,31 @@ public class TripResourceTest extends ResourceTestEnvironment {
                 .contentType(ContentType.JSON);
     }
 
+    @Test
+    public void removePersonFromTrip() {
+        User admin = createAndPersistAdmin();
+
+        Trip trip = createAndPersistTrip();
+        Person person = createAndPersistPerson();
+        trip.getPeople().add(person);
+
+        trip = (Trip) update(trip);
+
+        login(admin);
+
+        given()
+                .header("Content-type", ContentType.JSON)
+                .header("x-access-token", securityToken)
+                .when()
+                .delete(BASE_URL + trip.getId() + "/person/" + person.getId())
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK_200.getStatusCode())
+                .contentType(ContentType.JSON);
+    }
+
+    // remove person from trip unauthorized (as a user)
+
+    // remove person from trip unauthenticated (not logged in)
+
 }

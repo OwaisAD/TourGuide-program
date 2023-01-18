@@ -7,6 +7,7 @@ import entities.Trip;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+import javax.ws.rs.NotFoundException;
 import java.util.List;
 
 public class TripFacade {
@@ -63,6 +64,25 @@ public class TripFacade {
             em.close();
         }
         return trip;
+    }
+
+    public TripDTO removePersonFromTrip(Trip trip, Person person) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+
+            if(trip.getPeople().contains(person)) {
+                trip.getPeople().remove(person);
+                em.merge(trip);
+            } else {
+                throw new NotFoundException("Person with id: " + person.getId() + " was not found");
+            }
+
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return new TripDTO(trip);
     }
 
     //public Person createPerson(Person person) {

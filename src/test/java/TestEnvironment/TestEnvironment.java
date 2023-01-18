@@ -39,8 +39,12 @@ public class TestEnvironment {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
+            em.createQuery("DELETE FROM Person").executeUpdate();
             em.createQuery("DELETE FROM User").executeUpdate();
             em.createQuery("DELETE FROM Role").executeUpdate();
+            em.createQuery("DELETE FROM Trip").executeUpdate();
+            em.createQuery("DELETE FROM Guide").executeUpdate();
+
             em.getTransaction().commit();
         } finally {
             em.close();

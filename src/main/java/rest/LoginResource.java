@@ -36,6 +36,7 @@ public class LoginResource extends Resource {
 
         try {
             User user = USER_FACADE.getVerifiedUser(loginDTO.getUsername(), loginDTO.getPassword());
+            System.out.println(user.getId());
             String token = createToken(user.getId(), user.getUsername(), user.getRolesAsStringList());
 
             loginDTO = new LoginDTO.Builder()
