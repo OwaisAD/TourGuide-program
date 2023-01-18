@@ -5,6 +5,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -96,4 +97,27 @@ public class Guide implements entities.Entity {
         this.trips = trips;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Guide)) return false;
+        Guide guide = (Guide) o;
+        return getId().equals(guide.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
+
+    @Override
+    public String toString() {
+        return "Guide{" +
+                "id=" + id +
+                ", gender='" + gender + '\'' +
+                ", birthYear='" + birthYear + '\'' +
+                ", profile='" + profile + '\'' +
+                ", image='" + image + '\'' +
+                '}';
+    }
 }

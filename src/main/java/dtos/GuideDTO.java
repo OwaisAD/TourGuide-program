@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -50,6 +51,15 @@ public class GuideDTO implements Serializable {
         });
     }
 
+    public static List<GuideDTO> getDTOs(List<Guide> allGuides) {
+        List<GuideDTO> guideDTOList = new ArrayList<>();
+        allGuides.forEach(guide -> {
+            guideDTOList.add(new GuideDTO(guide));
+        });
+        return guideDTOList;
+    }
+
+
     public Integer getId() {
         return id;
     }
@@ -72,6 +82,19 @@ public class GuideDTO implements Serializable {
 
     public List<TripInnerDTO> getTrips() {
         return trips;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GuideDTO)) return false;
+        GuideDTO guideDTO = (GuideDTO) o;
+        return getId().equals(guideDTO.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 
     @Override

@@ -141,5 +141,16 @@ public class Trip implements entities.Entity {
         return Objects.hash(getId());
     }
 
-
+    @Override
+    public String toString() {
+        return "Trip{" +
+                "id=" + id +
+                ", date=" + date +
+                ", time=" + time +
+                ", location='" + location + '\'' +
+                ", duration='" + duration + '\'' +
+                ", packingList='" + packingList + '\'' +
+                ", guide=" + guide +
+                '}';
+    }
 }

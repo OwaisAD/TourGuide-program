@@ -93,7 +93,16 @@ public class TripResource extends Resource {
         TripDTO createdTrip = facade.createTrip(trip);
 
         return Response.status(HttpStatus.OK_200.getStatusCode()).entity(GSON.toJson(createdTrip)).build();
-
     }
 
+    @PUT
+    @Path("{id}/guide/{guideId}")
+    @RolesAllowed("admin")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response updateGuideOnTrip(@PathParam("id") int id, @PathParam("guideId") int guideId) {
+        Trip trip = facade.getTripById(id);
+        Guide guide = guideFacade.getGuideById(guideId);
+        TripDTO updatedTrip = facade.updateGuideOnTrip(guide, trip);
+        return Response.status(HttpStatus.OK_200.getStatusCode()).entity(GSON.toJson(updatedTrip)).build();
+    }
 }

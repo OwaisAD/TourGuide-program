@@ -31,5 +31,6 @@ public class ApplicationConfig extends Application {
         resources.add(rest.UserResource.class);
         resources.add(UtilityResource.class);
         resources.add(rest.TripResource.class);
+        resources.add(rest.GuideResource.class);
     }
 }

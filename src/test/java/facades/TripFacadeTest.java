@@ -2,15 +2,16 @@ package facades;
 
 import TestEnvironment.TestEnvironment;
 import dtos.TripDTO;
+import entities.Guide;
 import entities.Person;
 import entities.Trip;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TripFacadeTest extends TestEnvironment {
 
@@ -101,5 +102,25 @@ public class TripFacadeTest extends TestEnvironment {
         assertEquals(0, facade.getAllTrips().size());
     }
 
+    @Test
+    public void updateGuideOnTripTest() {
+        Trip trip = createAndPersistTrip();
+        Guide guide = createAndPersistGuide();
+
+        trip.setGuide(guide);
+
+        trip = (Trip) update(trip);
+
+        assertTrue(Objects.equals(trip.getGuide().getId(), guide.getId()));
+
+        Guide newGuide = createAndPersistGuide();
+
+        TripDTO updatedTrip = facade.updateGuideOnTrip(newGuide, trip);
+
+        assertFalse(Objects.equals(updatedTrip.getGuide().getId(), guide.getId()));
+        assertTrue(Objects.equals(updatedTrip.getGuide().getId(), newGuide.getId()));
+
+
+    }
 
 }

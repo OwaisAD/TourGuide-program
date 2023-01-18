@@ -1,6 +1,7 @@
 package facades;
 
 import dtos.TripDTO;
+import entities.Guide;
 import entities.Person;
 import entities.Trip;
 
@@ -120,4 +121,17 @@ public class TripFacade {
         return new TripDTO(trip);
     }
 
+    public TripDTO updateGuideOnTrip(Guide guide, Trip trip) {
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            em.getTransaction().begin();
+            trip.setGuide(guide);
+            em.merge(trip);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return new TripDTO(trip);
+    }
 }

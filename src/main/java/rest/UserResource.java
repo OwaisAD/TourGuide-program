@@ -61,7 +61,7 @@ public class UserResource extends Resource {
     }
 
     @PUT
-    @RolesAllowed({"user"})
+    @RolesAllowed({"user", "admin"})
     @Path("me/update")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})

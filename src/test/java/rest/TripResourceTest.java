@@ -1,6 +1,7 @@
 package rest;
 
 import dtos.PersonDTO;
+import entities.Guide;
 import entities.Person;
 import entities.Trip;
 import entities.User;
@@ -200,8 +201,6 @@ public class TripResourceTest extends ResourceTestEnvironment {
 
         login(admin);
 
-
-
         int id = given()
                 .header("Content-type", ContentType.JSON)
                 .header("x-access-token", securityToken)
@@ -214,5 +213,30 @@ public class TripResourceTest extends ResourceTestEnvironment {
                 .contentType(ContentType.JSON)
                 .extract().path("id");
         assertDatabaseHasEntity(trip, id);
+    }
+
+    @Test
+    public void updateGuideOnTripTest() {
+        User admin = createAndPersistAdmin();
+
+        Trip trip = createAndPersistTrip();
+        Guide guide = createAndPersistGuide();
+
+        trip.setGuide(guide);
+        trip = (Trip) update(trip);
+
+        Guide newGuide = createAndPersistGuide();
+
+        login(admin);
+
+        given()
+                .header("Content-type", ContentType.JSON)
+                .header("x-access-token", securityToken)
+                .when()
+                .put(BASE_URL + trip.getId() + "/guide/" + newGuide.getId())
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK_200.getStatusCode())
+                .contentType(ContentType.JSON);
     }
 }
