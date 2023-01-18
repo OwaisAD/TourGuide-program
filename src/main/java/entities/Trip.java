@@ -140,4 +140,6 @@ public class Trip implements entities.Entity {
     public int hashCode() {
         return Objects.hash(getId());
     }
+
+
 }

@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class TripFacadeTest extends TestEnvironment {
 
     private static TripFacade facade;
+    private static PersonFacade personFacade;
 
     public TripFacadeTest() {
     }
@@ -68,6 +69,10 @@ public class TripFacadeTest extends TestEnvironment {
 
         assertEquals(updatedTrip.getPeople().size(), 1);
         assertEquals(updatedTrip.getPeople().get(0).getId(), person.getId());
+
+
+        trip = (Trip) update(trip);
+        person = (Person) update(person);
 
         TripDTO updatedAgainTrip = facade.removePersonFromTrip(trip, person);
 

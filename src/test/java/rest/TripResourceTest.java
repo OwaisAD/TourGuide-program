@@ -68,7 +68,7 @@ public class TripResourceTest extends ResourceTestEnvironment {
     }
 
     @Test
-    public void addPersonToTrip() {
+    public void addPersonToTripTest() {
         User user = createAndPersistUser();
         Trip trip = createAndPersistTrip();
         PersonDTO personDTO = new PersonDTO(createAndPersistPerson());
@@ -88,7 +88,7 @@ public class TripResourceTest extends ResourceTestEnvironment {
     }
 
     @Test
-    public void removePersonFromTrip() {
+    public void removePersonFromTripTest() {
         User admin = createAndPersistAdmin();
 
         Trip trip = createAndPersistTrip();
@@ -111,7 +111,44 @@ public class TripResourceTest extends ResourceTestEnvironment {
     }
 
     // remove person from trip unauthorized (as a user)
+    @Test
+    public void removePersonFromTripUnauthorizedTest() {
+        User user = createAndPersistUser();
+
+        Trip trip = createAndPersistTrip();
+        Person person = createAndPersistPerson();
+        trip.getPeople().add(person);
+
+        trip = (Trip) update(trip);
+
+        login(user);
+
+        given()
+                .header("Content-type", ContentType.JSON)
+                .header("x-access-token", securityToken)
+                .when()
+                .delete(BASE_URL + trip.getId() + "/person/" + person.getId())
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.UNAUTHORIZED_401.getStatusCode());
+    }
 
     // remove person from trip unauthenticated (not logged in)
+    @Test
+    public void removePersonFromTripUnauthenticatedTest() {
 
+        Trip trip = createAndPersistTrip();
+        Person person = createAndPersistPerson();
+        trip.getPeople().add(person);
+
+        trip = (Trip) update(trip);
+
+
+        given()
+                .when()
+                .delete(BASE_URL + trip.getId() + "/person/" + person.getId())
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.FORBIDDEN_403.getStatusCode());
+    }
 }

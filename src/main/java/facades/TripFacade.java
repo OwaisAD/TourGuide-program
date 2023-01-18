@@ -85,7 +85,5 @@ public class TripFacade {
         return new TripDTO(trip);
     }
 
-    //public Person createPerson(Person person) {
-//
-  //  }
+
 }
