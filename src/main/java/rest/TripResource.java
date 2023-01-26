@@ -12,6 +12,7 @@ import facades.TripFacade;
 import org.glassfish.grizzly.http.util.HttpStatus;
 
 import javax.annotation.security.RolesAllowed;
+import javax.persistence.EntityNotFoundException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;

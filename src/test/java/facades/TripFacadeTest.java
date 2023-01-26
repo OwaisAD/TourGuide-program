@@ -111,14 +111,14 @@ public class TripFacadeTest extends TestEnvironment {
 
         trip = (Trip) update(trip);
 
-        assertTrue(Objects.equals(trip.getGuide().getId(), guide.getId()));
+        assertEquals(trip.getGuide().getId(), guide.getId());
 
         Guide newGuide = createAndPersistGuide();
 
         TripDTO updatedTrip = facade.updateGuideOnTrip(newGuide, trip);
 
-        assertFalse(Objects.equals(updatedTrip.getGuide().getId(), guide.getId()));
-        assertTrue(Objects.equals(updatedTrip.getGuide().getId(), newGuide.getId()));
+        assertNotEquals(updatedTrip.getGuide().getId(), guide.getId());
+        assertEquals(updatedTrip.getGuide().getId(), newGuide.getId());
 
 
     }

@@ -73,7 +73,6 @@ public class TestEnvironment {
             return runInTransaction(em -> em.merge(entity));
     }
 
-
     //Tager en lambda funktion som parameter
     private Entity runInTransaction(Transactionable transactionable) {
         EntityManager em = emf.createEntityManager();

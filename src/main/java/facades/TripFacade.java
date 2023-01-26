@@ -61,6 +61,11 @@ public class TripFacade {
         try {
             em.getTransaction().begin();
             trip = em.find(Trip.class, id);
+
+            if(trip == null) {
+                throw new EntityNotFoundException("Entity with id: " + id + " was not found");
+            }
+
             em.getTransaction().commit();
         } finally {
             em.close();
