@@ -57,7 +57,7 @@ public class LoginResource extends Resource {
 
     private String createToken(int userId, String userName, List<String> roles) throws JOSEException {
         String rolesAsString = getListAsString(roles);
-        String issuer = "ThomasStudios";
+        String issuer = "OwaisStudios";
 
         JWSSigner signer = new MACSigner(SharedSecret.getSharedKey());
         Date date = new Date();
